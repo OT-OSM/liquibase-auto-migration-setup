@@ -1,0 +1,35 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+           http://www.liquibase.org/xml/ns/dbchangelog
+           http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="3" author="dev">
+
+        <!-- CREATE INDEX -->
+        <createIndex tableName="users" indexName="idx_users_email">
+            <column name="email"/>
+        </createIndex>
+
+        <!-- MODIFY COLUMN (triggers approval in pipeline) -->
+        <modifyDataType tableName="users" columnName="email" newDataType="VARCHAR(300)"/>
+
+        <!-- DELETE TEST (pipeline should catch unsafe delete if missing WHERE in SQL - XML safe here) -->
+
+        <!-- DROP COLUMN (pipeline approval gate) -->
+        <dropColumn tableName="users" columnName="name"/>
+
+        <!-- TRUNCATE TEST (should be blocked by pipeline if detected in SQL) -->
+        <!-- Not valid XML change → just for pipeline rule testing -->
+        <!-- TRUNCATE users -->
+
+        <rollback>
+            <addColumn tableName="users">
+                <column name="name" type="VARCHAR(100)"/>
+            </addColumn>
+        </rollback>
+
+    </changeSet>
+
+</databaseChangeLog>
