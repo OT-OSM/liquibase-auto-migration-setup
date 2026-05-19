@@ -1,7 +1,7 @@
 CREATE TABLE test_table(id int);
 
-UPDATE users SET name='x';  -- ⚠️ should trigger unsafe update rule
+UPDATE users SET name='x';  --  should trigger unsafe update rule
 
-DELETE FROM users;          -- ⚠️ should trigger unsafe delete rule
+DELETE FROM users;          --  should trigger unsafe delete rule
 
-TRUNCATE TABLE users;       -- ⚠️ should be blocked
+TRUNCATE TABLE users;       --  should be blocked
